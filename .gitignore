@@ -1,0 +1,6 @@
+# Build sources stay local - build.py holds absolute paths from this PC.
+# Only the built page + CNAME are published.
+build.py
+form_template.html
+logo.txt
+__pycache__/
