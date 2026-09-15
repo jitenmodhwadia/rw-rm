@@ -106,8 +106,10 @@
     </div>
 
     <div id="formview">
-      <div class="guide">Fill <b>one entry for every meaningful client / investor interaction</b>. Every interested client must have a <b>follow-up date</b>.<br>
-        <span style="color:var(--gold-dark);">દરેક મહત્વની ક્લાયન્ટ વાતચીત માટે એક એન્ટ્રી ભરો. રસ ધરાવતા દરેક ક્લાયન્ટની ફોલો-અપ તારીખ જરૂરી છે.</span></div>
+      <div class="guide">Fill <b>one entry for every meaningful client / investor interaction</b> — sales or not.<br>
+        Only <b>RM name, date, client name, mobile, interaction type and a one-line brief</b> are required <span style="color:var(--red);">*</span>. If something was <b>not discussed, leave it blank</b>.<br>
+        A <b>follow-up date</b> is needed only when the client is Interested / Follow-up / Planning.<br>
+        <span style="color:var(--gold-dark);">ફક્ત * વાળી વિગતો જરૂરી છે. જે વાત ન થઈ હોય તે ખાલી રાખો. સર્વિસ / સામાન્ય કૉલ માટે Status માં "Service / General Call" પસંદ કરો.</span></div>
 
       <form id="rmform" novalidate autocomplete="off">
 
@@ -155,15 +157,15 @@
             <input type="tel" id="f_mobile" inputmode="numeric" maxlength="14" placeholder="10 digits">
           </div>
           <div class="fld full" data-k="ctype">
-            <label class="l">Client Type <span class="req">*</span></label>
+            <label class="l">Client Type</label>
             <div class="chips"><label class="chip"><input type="radio" name="ctype" value="Existing Investor"><span>Existing Investor</span></label><label class="chip"><input type="radio" name="ctype" value="New Client"><span>New Client</span></label></div>
           </div>
           <div class="fld" data-k="source">
-            <label class="l" for="f_source">Source <span class="req">*</span></label>
+            <label class="l" for="f_source">Source</label>
             <select id="f_source"><option value="">— Select —</option><option value="Direct Call">Direct Call</option><option value="Walk-in">Walk-in</option><option value="Investor Referral">Investor Referral</option><option value="Existing Investor">Existing Investor</option><option value="WhatsApp">WhatsApp</option><option value="Other">Other</option></select>
           </div>
           <div class="fld" data-k="refby" id="refwrap" style="display:none;">
-            <label class="l" for="f_refby">Referred By Investor <span class="req">*</span></label>
+            <label class="l" for="f_refby">Referred By Investor</label>
             <input type="text" id="f_refby" autocapitalize="words" placeholder="Investor's name">
           </div>
         </div>
@@ -188,32 +190,37 @@
           </div>
           <div class="fld full" data-k="timeline">
             <label class="l" for="f_timeline">Investment Timeline</label>
-            <select id="f_timeline"><option value="">— Select —</option><option value="Today">Today</option><option value="Within 3 Days">Within 3 Days</option><option value="Within 7 Days">Within 7 Days</option><option value="Within 15 Days">Within 15 Days</option><option value="Within 1 Month">Within 1 Month</option><option value="1–3 Months">1–3 Months</option><option value="3–6 Months">3–6 Months</option><option value="Not Decided">Not Decided</option></select>
+            <select id="f_timeline"><option value="">— Select —</option><option value="Today">Today</option><option value="Within 3 Days">Within 3 Days</option><option value="Within 7 Days">Within 7 Days</option><option value="Within 15 Days">Within 15 Days</option><option value="Within 1 Month">Within 1 Month</option><option value="1–3 Months">1–3 Months</option><option value="3–6 Months">3–6 Months</option><option value="Not Decided">Not Decided</option><option value="Not Discussed">Not Discussed</option></select>
           </div>
         </div>
 
         <div class="sec">4 · Discussion <span class="g">/ ચર્ચા</span></div>
         <div class="fld" data-k="brief">
           <label class="l" for="f_brief">Discussion Brief <span class="req">*</span></label>
-          <textarea id="f_brief" placeholder="Wants to add ₹10 lakh; will discuss with family."></textarea>
+          <textarea id="f_brief" style="min-height:62px;" placeholder="One line is enough. e.g. Wants to add ₹10 lakh; will discuss with family."></textarea>
+          <div class="quick" id="briefquick">
+            <button type="button" class="qbtn">Payout query</button><button type="button" class="qbtn">Documents / KYC</button>
+            <button type="button" class="qbtn">General update</button><button type="button" class="qbtn">Courtesy call</button>
+            <button type="button" class="qbtn">Complaint / issue</button><button type="button" class="qbtn">Not reachable / no answer</button>
+          </div>
         </div>
         <div class="fld" data-k="plan">
           <label class="l" for="f_plan">Client Requirement / Plan</label>
           <textarea id="f_plan" style="min-height:62px;" placeholder="Planning additional investment after 15 days."></textarea>
         </div>
         <div class="fld" data-k="potential">
-          <label class="l">Potential <span class="req">*</span></label>
-          <div class="chips"><label class="chip hi"><input type="radio" name="potential" value="High"><span>High</span></label><label class="chip me"><input type="radio" name="potential" value="Medium"><span>Medium</span></label><label class="chip lo"><input type="radio" name="potential" value="Low"><span>Low</span></label></div>
+          <label class="l">Potential</label>
+          <div class="chips"><label class="chip hi"><input type="radio" name="potential" value="High"><span>High</span></label><label class="chip me"><input type="radio" name="potential" value="Medium"><span>Medium</span></label><label class="chip lo"><input type="radio" name="potential" value="Low"><span>Low</span></label><label class="chip lo"><input type="radio" name="potential" value="N/A"><span>N/A</span></label></div>
         </div>
 
         <div class="sec">5 · Next Step <span class="g">/ આગળનું પગલું</span></div>
         <div class="grid">
           <div class="fld" data-k="status">
-            <label class="l" for="f_status">Status <span class="req">*</span></label>
-            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Closed">Closed</option></select>
+            <label class="l" for="f_status">Status</label>
+            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Closed">Closed</option><option value="Service / General Call">Service / General Call</option></select>
           </div>
           <div class="fld" data-k="action">
-            <label class="l" for="f_action">Next Action <span class="req">*</span></label>
+            <label class="l" for="f_action">Next Action</label>
             <select id="f_action"><option value="">— Select —</option><option value="Call Back">Call Back</option><option value="Meeting">Meeting</option><option value="Send Details">Send Details</option><option value="Send Proposal">Send Proposal</option><option value="Collect Documents">Collect Documents</option><option value="Follow-up">Follow-up</option><option value="No Action">No Action</option></select>
           </div>
           <div class="fld full" data-k="followup">
@@ -255,7 +262,8 @@
 
 <script>
 var ENTRY = {"date": "1083711792", "rm": "911387376", "client": "1658779873", "mobile": "1087840083", "ctype": "1971037835", "source": "1316279233", "refby": "1521717369", "curinv": "1728183405", "planinv": "2141153054", "timeline": "864499553", "calltime": "2017782479", "duration": "486790726", "itype": "1737429724", "brief": "1378948956", "plan": "1769908538", "potential": "1073947772", "followup": "388960185", "action": "593555457", "status": "1503723516", "remarks": "797750868"};   // field key -> Google Form entry id, in tracker column order
-var NO_FOLLOWUP = ["Not Interested", "Closed", "Invested"];
+// Follow-up date is required only for active leads (RM feedback 15-Sep: not every call is a sales call).
+var NEEDS_FOLLOWUP = ["Interested", "Follow-up", "Planning"];
 
 function $(id){ return document.getElementById(id); }
 function pad(n){ return (n < 10 ? "0" : "") + n; }
@@ -342,12 +350,21 @@ document.querySelectorAll('input[name="ctype"]').forEach(function(r){
     if (r.value === "Existing Investor" && !$("f_source").value) { $("f_source").value = "Existing Investor"; }
   });
 });
-function followupNeeded(){ return NO_FOLLOWUP.indexOf($("f_status").value) === -1 && $("f_action").value !== "No Action"; }
+function followupNeeded(){ return NEEDS_FOLLOWUP.indexOf($("f_status").value) !== -1 && $("f_action").value !== "No Action"; }
 function syncFollowReq(){ $("fureq").style.display = followupNeeded() ? "inline" : "none"; }
+syncFollowReq();
 $("f_status").addEventListener("change", function(){
   var s = $("f_status").value;
-  if ((s === "Not Interested" || s === "Closed") && !$("f_action").value) $("f_action").value = "No Action";
+  if ((s === "Not Interested" || s === "Closed" || s === "Service / General Call") && !$("f_action").value) $("f_action").value = "No Action";
+  if (s === "Service / General Call" && !radioVal("potential")) { var na = document.querySelector('input[name="potential"][value="N/A"]'); if (na) na.checked = true; }
   syncFollowReq();
+});
+document.querySelectorAll("#briefquick .qbtn").forEach(function(b){
+  b.addEventListener("click", function(){
+    var t = $("f_brief"), add = b.textContent;
+    t.value = t.value.trim() ? t.value.trim() + "; " + add : add;
+    t.dispatchEvent(new Event("input", {bubbles:true}));
+  });
 });
 $("f_action").addEventListener("change", syncFollowReq);
 $("f_mobile").addEventListener("input", function(){ this.value = this.value.replace(/[^\d+ ]/g, ""); });
@@ -383,9 +400,9 @@ $("rmform").addEventListener("submit", function(ev){
     status:    $("f_status").value,
     remarks:   $("f_remarks").value.trim()
   };
-  var required = ["date","rm","client","mobile","ctype","source","itype","brief","potential","status","action"];
-  if (v.source === "Investor Referral") required.push("refby");
+  var required = ["date","rm","client","mobile","itype","brief"];
   if (followupNeeded()) required.push("followup");
+  if (v.source === "Investor Referral" && !v.refby) v.refby = "-";
   var bad = [];
   required.forEach(function(k){ if (!v[k]) bad.push(k); });
   if (mobileDigits.length !== 10 && bad.indexOf("mobile") === -1) bad.push("mobile");
@@ -417,9 +434,11 @@ $("rmform").addEventListener("submit", function(ev){
     if (finished) return; finished = true; busy = false;
     btn.disabled = false; btn.textContent = "✓ SAVE ENTRY / એન્ટ્રી સેવ કરો";
     store(countKey(), String((Number(store(countKey())) || 0) + 1)); showCount();
-    var rows = [["Client", v.client + " · " + v.mobile], ["Type", v.ctype + " · " + v.source],
-      ["Planned", v.planinv ? inr(v.planinv) + " (" + words(v.planinv) + ")" : "—"],
-      ["Potential", v.potential], ["Status", v.status + " → " + v.action], ["Follow-up", v.followup || "—"]];
+    var rows = [["Client", v.client + " · " + v.mobile], ["Type", [v.ctype, v.source].filter(Boolean).join(" · ") || "—"],
+      ["Brief", v.brief],
+      ["Planned", Number(v.planinv) ? inr(v.planinv) + " (" + words(v.planinv) + ")" : "—"],
+      ["Potential", v.potential || "—"], ["Status", [v.status, v.action].filter(Boolean).join(" → ") || "—"],
+      ["Follow-up", v.followup || "—"]];
     $("summary").innerHTML = rows.map(function(r){
       return '<div class="srow"><div class="k">' + r[0] + '</div><div class="v">' + String(r[1]).replace(/</g, "&lt;") + '</div></div>';
     }).join("");
