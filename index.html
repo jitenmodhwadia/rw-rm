@@ -13,6 +13,7 @@
     --navy:#12233f; --green:#1e6b3a; --text:#2a2a2a; --red:#a3222d;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
+  [hidden]{display:none !important;}
   body{
     font-family:'Montserrat','Noto Serif Gujarati',sans-serif; color:var(--text);
     background:linear-gradient(180deg,var(--cream) 0%,var(--cream2) 100%);
@@ -42,8 +43,8 @@
   @media (max-width:430px){ .grid{grid-template-columns:1fr;} }
   .fld{margin-bottom:15px; min-width:0;}
   .fld label.l{display:block; font-size:.8rem; font-weight:700; color:var(--navy); margin-bottom:6px; line-height:1.5;}
-  .fld label.l .req{color:var(--red);}
-  .fld input[type=text], .fld input[type=tel], .fld input[type=date], .fld input[type=time],
+  .req{color:var(--red);}
+  .fld input[type=text], .fld input[type=tel], .fld input[type=password], .fld input[type=date], .fld input[type=time], .fld input[type=datetime-local],
   .fld input[type=number], .fld textarea, .fld select{
     width:100%; max-width:100%; min-width:0; padding:11px 12px; font-family:'Montserrat','Noto Serif Gujarati',sans-serif; font-size:1rem;
     background:var(--cream); border:1px solid #d9c98f; border-radius:10px; color:var(--text);
@@ -53,7 +54,7 @@
     background-image:linear-gradient(45deg,transparent 50%,var(--gold-dark) 50%),linear-gradient(135deg,var(--gold-dark) 50%,transparent 50%);
     background-position:calc(100% - 18px) 50%, calc(100% - 12px) 50%; background-size:6px 6px; background-repeat:no-repeat; padding-right:32px;
   }
-  .fld textarea{min-height:78px; resize:vertical; line-height:1.6;}
+  .fld textarea{min-height:88px; resize:vertical; line-height:1.6;}
   .fld input:focus, .fld textarea:focus, .fld select:focus{outline:2px solid var(--gold); background-color:#fff;}
   .fld.bad input, .fld.bad select, .fld.bad textarea, .fld.bad .chips{outline:2px solid var(--red); border-radius:10px;}
 
@@ -74,13 +75,19 @@
   .qbtn:active{background:#fdf3d7;}
   .hint{font-size:.72rem; color:#8a8a8a; margin-top:5px; line-height:1.5; min-height:1em;}
   .hint b{color:var(--green);}
+  .linkbtn{background:none; border:none; color:var(--green); font-family:inherit; font-weight:700; font-size:.74rem; cursor:pointer; padding:0; text-decoration:underline;}
+  .lookup{margin-top:6px; font-size:.76rem; line-height:1.5; padding:8px 10px; border-radius:8px; background:#f4f1e6; color:#555;}
+  .lookup.ok{background:#e7f3ea; color:var(--green); font-weight:600;}
+  .lookup.warn{background:#fbecec; color:var(--red); font-weight:600;}
+  .brieflen{float:right; font-size:.7rem; color:#8a8a8a; font-weight:600;}
+  .brieflen.short{color:var(--red);}
 
   .btn{border:none; cursor:pointer; border-radius:999px; font-family:'Montserrat','Noto Serif Gujarati',sans-serif;
     font-weight:800; font-size:1rem; padding:14px 26px; letter-spacing:.02em; text-decoration:none; display:inline-block;}
   .btn-submit{width:100%; margin-top:8px; background:linear-gradient(135deg,#e6c866,#b08d2e); color:var(--navy); font-size:1.08rem; padding:15px;}
   .btn-submit:disabled{opacity:.6; cursor:wait;}
   .btn-next{width:100%; background:var(--navy); color:#ffe9a8; font-size:1.05rem; padding:15px; margin-bottom:10px;}
-  .err{color:var(--red); font-size:.82rem; margin-top:8px; display:none; font-weight:700; text-align:center;}
+  .err{color:var(--red); font-size:.82rem; margin-top:8px; display:none; font-weight:700; text-align:center; line-height:1.6;}
 
   #confirmview{display:none; text-align:center;}
   .tick{width:64px; height:64px; margin:18px auto 12px; border-radius:50%; background:var(--green); color:#fff;
@@ -106,10 +113,9 @@
     </div>
 
     <div id="formview">
-      <div class="guide">Fill <b>one entry for every meaningful client / investor interaction</b> — sales or not.<br>
-        Only <b>RM name, date, client name, mobile, interaction type and a one-line brief</b> are required <span style="color:var(--red);">*</span>. If something was <b>not discussed, leave it blank</b>.<br>
-        A <b>follow-up date</b> is needed only when the client is Interested / Follow-up / Planning.<br>
-        <span style="color:var(--gold-dark);">ફક્ત * વાળી વિગતો જરૂરી છે. જે વાત ન થઈ હોય તે ખાલી રાખો. સર્વિસ / સામાન્ય કૉલ માટે Status માં "Service / General Call" પસંદ કરો.</span></div>
+      <div class="guide">Fill <b>one entry for every client / investor interaction</b> — sales or not. Fields marked <span class="req">*</span> are required; if something was <b>not discussed, leave it blank</b>.<br>
+        For payout, KYC or other non-sales calls choose Status <b>"Service / General Call"</b> — the investment and follow-up parts disappear.<br>
+        <span style="color:var(--gold-dark);">ફક્ત * વાળી વિગતો જરૂરી છે. જે વાત ન થઈ હોય તે ખાલી રાખો. સર્વિસ / સામાન્ય કૉલ માટે Status માં "Service / General Call" પસંદ કરો — રોકાણ અને ફોલો-અપ વિભાગ છુપાઈ જશે.</span></div>
 
       <form id="rmform" novalidate autocomplete="off">
 
@@ -117,8 +123,7 @@
         <div class="grid">
           <div class="fld" data-k="rm">
             <label class="l" for="f_rm">RM Name <span class="req">*</span></label>
-            <input type="text" id="f_rm" list="rmlist" autocomplete="on" placeholder="Your name">
-            <datalist id="rmlist"></datalist>
+            <select id="f_rm"><option value="">— Select —</option><option value="Divyesh Keshariya">Divyesh Keshariya</option><option value="Ashvin Zala">Ashvin Zala</option><option value="Shivani Thakkar">Shivani Thakkar</option><option value="Suhani Solanki">Suhani Solanki</option><option value="Yogesh Bhadra">Yogesh Bhadra</option><option value="Drashti (Back Office)">Drashti (Back Office)</option></select>
             <div class="hint">Remembered on this phone</div>
           </div>
           <div class="fld" data-k="date">
@@ -129,117 +134,162 @@
             <label class="l" for="f_itype">Interaction Type <span class="req">*</span></label>
             <select id="f_itype"><option value="">— Select —</option><option value="Incoming Call">Incoming Call</option><option value="Outgoing Call">Outgoing Call</option><option value="WhatsApp Call">WhatsApp Call</option><option value="Office Meeting">Office Meeting</option><option value="Site Meeting">Site Meeting</option><option value="WhatsApp Chat">WhatsApp Chat</option></select>
           </div>
-          <div class="fld" data-k="calltime">
-            <label class="l" for="f_calltime">Call Time</label>
-            <input type="time" id="f_calltime">
-            <div class="quick"><button type="button" class="qbtn" data-now="f_calltime">Now</button></div>
-          </div>
-          <div class="fld full" data-k="duration">
+          <div class="fld" data-k="duration">
             <label class="l" for="f_duration">Call Duration (Min)</label>
             <input type="number" id="f_duration" inputmode="numeric" min="0" placeholder="e.g. 10">
             <div class="quick" data-set="f_duration">
               <button type="button" class="qbtn" data-v="2">2</button><button type="button" class="qbtn" data-v="5">5</button>
               <button type="button" class="qbtn" data-v="10">10</button><button type="button" class="qbtn" data-v="15">15</button>
-              <button type="button" class="qbtn" data-v="20">20</button><button type="button" class="qbtn" data-v="30">30</button>
-              <button type="button" class="qbtn" data-v="45">45</button><button type="button" class="qbtn" data-v="60">60</button>
+              <button type="button" class="qbtn" data-v="30">30</button><button type="button" class="qbtn" data-v="60">60</button>
+            </div>
+          </div>
+          <div class="fld full" data-k="calltime">
+            <div class="hint" id="h_calltime">Call time is saved automatically. <button type="button" class="linkbtn" id="edittime">Edit time</button> (for a call logged later)</div>
+            <div id="w_calltime" hidden>
+              <label class="l" for="f_calltime">Call Time</label>
+              <input type="time" id="f_calltime">
             </div>
           </div>
         </div>
 
         <div class="sec">2 · Client <span class="g">/ ક્લાયન્ટ</span></div>
         <div class="grid">
+          <div class="fld full" data-k="mobile">
+            <label class="l" for="f_mobile">Mobile Number <span class="req">*</span></label>
+            <input type="tel" id="f_mobile" inputmode="numeric" maxlength="14" placeholder="10 digits — existing clients fill in automatically">
+            <div class="quick"><button type="button" class="qbtn" id="lookupbtn">🔍 Find existing client</button></div>
+            <div class="lookup" id="lk_msg" hidden></div>
+            <div class="lookup" id="w_pin" hidden>Enter the team PIN once on this phone to search existing clients:
+              <div style="display:flex; gap:6px; margin-top:6px;">
+                <input type="password" id="f_pin" autocomplete="off" autocapitalize="characters" spellcheck="false" style="flex:1; min-height:40px;">
+                <button type="button" class="qbtn" id="pinbtn" style="padding:8px 14px;">Save</button>
+              </div>
+            </div>
+          </div>
           <div class="fld" data-k="client">
             <label class="l" for="f_client">Client Name <span class="req">*</span></label>
             <input type="text" id="f_client" autocapitalize="words">
           </div>
-          <div class="fld" data-k="mobile">
-            <label class="l" for="f_mobile">Mobile Number <span class="req">*</span></label>
-            <input type="tel" id="f_mobile" inputmode="numeric" maxlength="14" placeholder="10 digits">
-          </div>
-          <div class="fld full" data-k="ctype">
+          <div class="fld" data-k="ctype">
             <label class="l">Client Type</label>
             <div class="chips"><label class="chip"><input type="radio" name="ctype" value="Existing Investor"><span>Existing Investor</span></label><label class="chip"><input type="radio" name="ctype" value="New Client"><span>New Client</span></label></div>
           </div>
-          <div class="fld" data-k="source">
+          <div class="fld" data-k="source" id="w_source" hidden>
             <label class="l" for="f_source">Source</label>
             <select id="f_source"><option value="">— Select —</option><option value="Direct Call">Direct Call</option><option value="Walk-in">Walk-in</option><option value="Investor Referral">Investor Referral</option><option value="Existing Investor">Existing Investor</option><option value="WhatsApp">WhatsApp</option><option value="Other">Other</option></select>
           </div>
-          <div class="fld" data-k="refby" id="refwrap" style="display:none;">
+          <div class="fld" data-k="refby" id="w_refby" hidden>
             <label class="l" for="f_refby">Referred By Investor</label>
             <input type="text" id="f_refby" autocapitalize="words" placeholder="Investor's name">
           </div>
         </div>
 
-        <div class="sec">3 · Investment <span class="g">/ રોકાણ</span></div>
+        <div class="sec">3 · Call Outcome <span class="g">/ વાતચીતનું પરિણામ</span></div>
         <div class="grid">
-          <div class="fld" data-k="curinv">
-            <label class="l" for="f_curinv">Current Investment (₹)</label>
-            <input type="number" id="f_curinv" inputmode="numeric" min="0" placeholder="0">
-            <div class="hint" id="h_curinv"></div>
+          <div class="fld full" data-k="status">
+            <label class="l" for="f_status">Status <span class="req">*</span></label>
+            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Lost / Not Investing">Lost / Not Investing</option><option value="Service / General Call">Service / General Call</option></select>
           </div>
-          <div class="fld" data-k="planinv">
-            <label class="l" for="f_planinv">Planned Investment (₹)</label>
-            <input type="number" id="f_planinv" inputmode="numeric" min="0" placeholder="0">
-            <div class="quick" data-set="f_planinv">
-              <button type="button" class="qbtn" data-v="100000">1L</button><button type="button" class="qbtn" data-v="300000">3L</button>
-              <button type="button" class="qbtn" data-v="500000">5L</button><button type="button" class="qbtn" data-v="1000000">10L</button>
-              <button type="button" class="qbtn" data-v="2500000">25L</button><button type="button" class="qbtn" data-v="5000000">50L</button>
-              <button type="button" class="qbtn" data-v="10000000">1Cr</button>
+          <div class="fld full" data-k="products">
+            <label class="l">Product Discussed <span style="font-weight:600; color:#8a8a8a;">(tap all that apply)</span></label>
+            <div class="chips"><label class="chip"><input type="checkbox" name="products" value="Privé"><span>Privé</span></label><label class="chip"><input type="checkbox" name="products" value="Unit Plan"><span>Unit Plan</span></label><label class="chip"><input type="checkbox" name="products" value="Vishram"><span>Vishram</span></label><label class="chip"><input type="checkbox" name="products" value="Gold Coin"><span>Gold Coin</span></label><label class="chip"><input type="checkbox" name="products" value="Other"><span>Other</span></label></div>
+          </div>
+          <div class="fld full" data-k="brief">
+            <label class="l" for="f_brief">Discussion / Notes <span class="req">*</span> <span class="brieflen" id="brieflen"></span></label>
+            <textarea id="f_brief" placeholder="What was discussed, the client's plan, and any remark. e.g. Wants to add ₹10 lakh after 15 days; will discuss with family."></textarea>
+            <div class="quick" id="briefquick">
+              <button type="button" class="qbtn">Renewal discussed</button><button type="button" class="qbtn">New plan explained</button>
+              <button type="button" class="qbtn">Payout query</button><button type="button" class="qbtn">Documents / KYC</button>
+              <button type="button" class="qbtn">Complaint</button><button type="button" class="qbtn">Courtesy call</button>
+              <button type="button" class="qbtn">Not reachable / no answer</button>
             </div>
-            <div class="hint" id="h_planinv"></div>
-          </div>
-          <div class="fld full" data-k="timeline">
-            <label class="l" for="f_timeline">Investment Timeline</label>
-            <select id="f_timeline"><option value="">— Select —</option><option value="Today">Today</option><option value="Within 3 Days">Within 3 Days</option><option value="Within 7 Days">Within 7 Days</option><option value="Within 15 Days">Within 15 Days</option><option value="Within 1 Month">Within 1 Month</option><option value="1–3 Months">1–3 Months</option><option value="3–6 Months">3–6 Months</option><option value="Not Decided">Not Decided</option><option value="Not Discussed">Not Discussed</option></select>
+            <div class="hint" id="h_brief">Minimum 25 characters for sales calls — add a few words after the quick button.</div>
           </div>
         </div>
 
-        <div class="sec">4 · Discussion <span class="g">/ ચર્ચા</span></div>
-        <div class="fld" data-k="brief">
-          <label class="l" for="f_brief">Discussion Brief <span class="req">*</span></label>
-          <textarea id="f_brief" style="min-height:62px;" placeholder="One line is enough. e.g. Wants to add ₹10 lakh; will discuss with family."></textarea>
-          <div class="quick" id="briefquick">
-            <button type="button" class="qbtn">Payout query</button><button type="button" class="qbtn">Documents / KYC</button>
-            <button type="button" class="qbtn">General update</button><button type="button" class="qbtn">Courtesy call</button>
-            <button type="button" class="qbtn">Complaint / issue</button><button type="button" class="qbtn">Not reachable / no answer</button>
+        <div id="sec_invest">
+          <div class="sec">4 · Investment <span class="g">/ રોકાણ</span></div>
+          <div class="grid">
+            <div class="fld" data-k="curinv">
+              <label class="l" for="f_curinv">Current Investment (₹)</label>
+              <input type="number" id="f_curinv" inputmode="numeric" min="0" placeholder="0">
+              <div class="hint" id="h_curinv"></div>
+            </div>
+            <div class="fld" data-k="planinv">
+              <label class="l" for="f_planinv">Planned Investment (₹) <span class="req" id="req_plan" hidden>*</span></label>
+              <input type="number" id="f_planinv" inputmode="numeric" min="0" placeholder="0">
+              <div class="quick" data-set="f_planinv">
+                <button type="button" class="qbtn" data-v="100000">1L</button><button type="button" class="qbtn" data-v="300000">3L</button>
+                <button type="button" class="qbtn" data-v="500000">5L</button><button type="button" class="qbtn" data-v="1000000">10L</button>
+                <button type="button" class="qbtn" data-v="2500000">25L</button><button type="button" class="qbtn" data-v="5000000">50L</button>
+                <button type="button" class="qbtn" data-v="10000000">1Cr</button>
+              </div>
+              <div class="hint" id="h_planinv"></div>
+            </div>
+            <div class="fld" data-k="timeline">
+              <label class="l" for="f_timeline">Investment Timeline <span class="req" id="req_timeline" hidden>*</span></label>
+              <select id="f_timeline"><option value="">— Select —</option><option value="Today">Today</option><option value="Within 3 Days">Within 3 Days</option><option value="Within 7 Days">Within 7 Days</option><option value="Within 15 Days">Within 15 Days</option><option value="Within 1 Month">Within 1 Month</option><option value="1–3 Months">1–3 Months</option><option value="3–6 Months">3–6 Months</option><option value="Not Decided">Not Decided</option><option value="Not Discussed">Not Discussed</option></select>
+            </div>
+            <div class="fld" data-k="potential">
+              <label class="l">Potential</label>
+              <div class="chips"><label class="chip hi"><input type="radio" name="potential" value="High"><span>High</span></label><label class="chip me"><input type="radio" name="potential" value="Medium"><span>Medium</span></label><label class="chip lo"><input type="radio" name="potential" value="Low"><span>Low</span></label><label class="chip lo"><input type="radio" name="potential" value="N/A"><span>N/A</span></label></div>
+            </div>
+            <div class="fld" data-k="invamt" id="w_invamt" hidden>
+              <label class="l" for="f_invamt">Invested Amount (₹) <span class="req">*</span></label>
+              <input type="number" id="f_invamt" inputmode="numeric" min="0" placeholder="0">
+              <div class="hint" id="h_invamt"></div>
+            </div>
+            <div class="fld" data-k="invdate" id="w_invdate" hidden>
+              <label class="l" for="f_invdate">Invested Date <span class="req">*</span></label>
+              <input type="date" id="f_invdate">
+            </div>
           </div>
         </div>
-        <div class="fld" data-k="plan">
-          <label class="l" for="f_plan">Client Requirement / Plan</label>
-          <textarea id="f_plan" style="min-height:62px;" placeholder="Planning additional investment after 15 days."></textarea>
-        </div>
-        <div class="fld" data-k="potential">
-          <label class="l">Potential</label>
-          <div class="chips"><label class="chip hi"><input type="radio" name="potential" value="High"><span>High</span></label><label class="chip me"><input type="radio" name="potential" value="Medium"><span>Medium</span></label><label class="chip lo"><input type="radio" name="potential" value="Low"><span>Low</span></label><label class="chip lo"><input type="radio" name="potential" value="N/A"><span>N/A</span></label></div>
+
+        <div id="sec_next">
+          <div class="sec">5 · Next Step <span class="g">/ આગળનું પગલું</span></div>
+          <div class="grid">
+            <div class="fld full" data-k="action">
+              <label class="l" for="f_action">Next Action</label>
+              <select id="f_action"><option value="">— Select —</option><option value="Call Back">Call Back</option><option value="Meeting">Meeting</option><option value="Send Details">Send Details</option><option value="Send Proposal">Send Proposal</option><option value="Collect Documents">Collect Documents</option><option value="Follow-up">Follow-up</option><option value="No Action">No Action</option></select>
+            </div>
+            <div class="fld full" data-k="meeting" id="w_meeting" hidden>
+              <label class="l" for="f_meeting">Meeting Date &amp; Time <span class="req">*</span></label>
+              <input type="datetime-local" id="f_meeting">
+            </div>
+            <div class="fld full" data-k="followup">
+              <label class="l" for="f_followup">Next Follow-up Date <span class="req" id="req_followup">*</span></label>
+              <input type="date" id="f_followup">
+              <div class="quick" id="fuquick">
+                <button type="button" class="qbtn" data-d="1">Tomorrow</button><button type="button" class="qbtn" data-d="2">+2 days</button>
+                <button type="button" class="qbtn" data-d="3">+3 days</button><button type="button" class="qbtn" data-d="7">+1 week</button>
+                <button type="button" class="qbtn" data-d="15">+15 days</button><button type="button" class="qbtn" data-d="30">+1 month</button>
+              </div>
+              <div class="hint" id="h_followup"></div>
+            </div>
+          </div>
         </div>
 
-        <div class="sec">5 · Next Step <span class="g">/ આગળનું પગલું</span></div>
+        <div class="sec">6 · Referral <span class="g">/ રેફરલ</span></div>
         <div class="grid">
-          <div class="fld" data-k="status">
-            <label class="l" for="f_status">Status</label>
-            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Closed">Closed</option><option value="Service / General Call">Service / General Call</option></select>
-          </div>
-          <div class="fld" data-k="action">
-            <label class="l" for="f_action">Next Action</label>
-            <select id="f_action"><option value="">— Select —</option><option value="Call Back">Call Back</option><option value="Meeting">Meeting</option><option value="Send Details">Send Details</option><option value="Send Proposal">Send Proposal</option><option value="Collect Documents">Collect Documents</option><option value="Follow-up">Follow-up</option><option value="No Action">No Action</option></select>
-          </div>
-          <div class="fld full" data-k="followup">
-            <label class="l" for="f_followup">Next Follow-up Date <span class="req" id="fureq">*</span></label>
-            <input type="date" id="f_followup">
-            <div class="quick" id="fuquick">
-              <button type="button" class="qbtn" data-d="1">Tomorrow</button><button type="button" class="qbtn" data-d="2">+2 days</button>
-              <button type="button" class="qbtn" data-d="3">+3 days</button><button type="button" class="qbtn" data-d="7">+1 week</button>
-              <button type="button" class="qbtn" data-d="15">+15 days</button><button type="button" class="qbtn" data-d="30">+1 month</button>
+          <div class="fld full" data-k="refasked">
+            <label class="l">Referral asked?</label>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="refasked" value="Yes"><span>Yes</span></label>
+              <label class="chip"><input type="radio" name="refasked" value="No"><span>No</span></label>
             </div>
-            <div class="hint" id="h_followup"></div>
           </div>
-          <div class="fld full" data-k="remarks">
-            <label class="l" for="f_remarks">RM Remarks</label>
-            <textarea id="f_remarks" style="min-height:58px;" placeholder="Client travelling; call after 20th September."></textarea>
+          <div class="fld" data-k="refname" id="w_refname" hidden>
+            <label class="l" for="f_refname">Referral Name <span class="req">*</span></label>
+            <input type="text" id="f_refname" autocapitalize="words">
+          </div>
+          <div class="fld" data-k="refmobile" id="w_refmobile" hidden>
+            <label class="l" for="f_refmobile">Referral Mobile <span class="req">*</span></label>
+            <input type="tel" id="f_refmobile" inputmode="numeric" maxlength="14" placeholder="10 digits">
           </div>
         </div>
 
-        <div class="err" id="errmsg">Please fill the fields marked in red / લાલ નિશાનીવાળી વિગતો ભરો</div>
+        <div class="err" id="errmsg"></div>
         <button type="submit" class="btn btn-submit" id="subbtn">✓ SAVE ENTRY / એન્ટ્રી સેવ કરો</button>
       </form>
     </div>
@@ -261,17 +311,25 @@
   <form id="gform" action="https://docs.google.com/forms/d/e/1FAIpQLSeZ47RfCaBX41-7Pgwb5mREP4z8rcSfTaBtyag6PKbdcJ0b0g/formResponse" method="POST" target="gsink" style="display:none"></form>
 
 <script>
-var ENTRY = {"date": "1083711792", "rm": "911387376", "client": "1658779873", "mobile": "1087840083", "ctype": "1971037835", "source": "1316279233", "refby": "1521717369", "curinv": "1728183405", "planinv": "2141153054", "timeline": "864499553", "calltime": "2017782479", "duration": "486790726", "itype": "1737429724", "brief": "1378948956", "plan": "1769908538", "potential": "1073947772", "followup": "388960185", "action": "593555457", "status": "1503723516", "remarks": "797750868"};   // field key -> Google Form entry id, in tracker column order
-// Follow-up date is required only for active leads (RM feedback 15-Sep: not every call is a sales call).
-var NEEDS_FOLLOWUP = ["Interested", "Follow-up", "Planning"];
+var ENTRY = {"date": "1083711792", "rm": "911387376", "client": "1658779873", "mobile": "1087840083", "ctype": "1971037835", "source": "1316279233", "refby": "1521717369", "curinv": "1728183405", "planinv": "2141153054", "timeline": "864499553", "calltime": "2017782479", "duration": "486790726", "itype": "1737429724", "brief": "1378948956", "plan": "1769908538", "potential": "1073947772", "followup": "388960185", "action": "593555457", "status": "1503723516", "remarks": "797750868", "refasked": "1045359845", "refname": "435506255", "refmobile": "1814692818", "invamt": "218190726", "invdate": "1219259852", "products": "832480533", "meeting": "260921087"};          // field key -> Google Form entry id (sheet columns B..)
+var LOOKUP_URL = "https://script.google.com/macros/s/AKfycbyBA_M1cUQY1YJ8IpEybzuJyZq-TqRnJVcCvse6RF10tFO7oUN7tFktfkB1xAx5UMI/exec";   // Apps Script web app: existing-client search by mobile
+var SERVICE = "Service / General Call";
+var NO_FOLLOWUP = ["Invested", "Not Interested", "Lost / Not Investing", SERVICE];
+var NEEDS_PLAN = ["Interested", "Planning", "Confirmed"];
+var BRIEF_MIN = 25;
+var NOT_REACHABLE = "Not reachable / no answer";   // forces a follow-up date (default tomorrow) so we call again
 
 function $(id){ return document.getElementById(id); }
 function pad(n){ return (n < 10 ? "0" : "") + n; }
 function isoDate(d){ return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
 function nowTime(){ var d = new Date(); return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
 function dmy(iso){ if(!iso) return ""; var p = iso.split("-"); return p[2] + "-" + p[1] + "-" + p[0]; }
-function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+function dmyTime(dt){ if(!dt) return ""; var p = dt.split("T"); return dmy(p[0]) + " " + (p[1] || "").slice(0, 5); }
+function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){ return null; } }
 function radioVal(name){ var r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ""; }
+function checkedVals(name){ return [].map.call(document.querySelectorAll('input[name="' + name + '"]:checked'), function(c){ return c.value; }); }
+function digits10(s){ return String(s || "").replace(/\D/g, "").replace(/^(91|0)(?=\d{10}$)/, ""); }
+function setv(id, val){ var el = $(id); el.value = val; el.dispatchEvent(new Event("input", {bubbles:true})); el.dispatchEvent(new Event("change", {bubbles:true})); }
 function inr(n){
   n = Math.round(Number(n) || 0); var s = String(n), last = s.slice(-3), rest = s.slice(0, -3);
   if (rest) last = "," + last;
@@ -284,6 +342,7 @@ function words(n){
   if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, "") + " Thousand";
   return String(n);
 }
+function esc(s){ return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
 /* ---- today counter (per phone, per date) ---- */
 function countKey(){ return "rm_count_" + ($("f_date").value || isoDate(new Date())); }
@@ -292,17 +351,45 @@ function showCount(){
   $("counter").textContent = "Today on this phone: " + c + (c === 1 ? " entry" : " entries");
 }
 
-/* ---- defaults ---- */
+/* ---- show / hide by answers ---- */
+function notReachable(){ return $("f_brief").value.indexOf(NOT_REACHABLE) !== -1; }
+function followupRequired(){ return notReachable() || NO_FOLLOWUP.indexOf($("f_status").value) === -1; }
+function applyVisibility(){
+  var status = $("f_status").value, svc = status === SERVICE;
+  var newClient = radioVal("ctype") === "New Client";
+  $("w_source").hidden = !newClient;
+  $("w_refby").hidden = !(newClient && $("f_source").value === "Investor Referral");
+  $("sec_invest").hidden = svc;
+  $("sec_next").hidden = svc && !notReachable();
+  $("w_invamt").hidden = $("w_invdate").hidden = status !== "Invested";
+  $("w_meeting").hidden = $("f_action").value !== "Meeting";
+  $("w_refname").hidden = $("w_refmobile").hidden = radioVal("refasked") !== "Yes";
+  $("req_plan").hidden = $("req_timeline").hidden = NEEDS_PLAN.indexOf(status) === -1;
+  $("req_followup").hidden = !followupRequired();
+  $("h_brief").hidden = svc;
+  briefCount();
+}
+function briefCount(){
+  var n = $("f_brief").value.trim().length, svc = $("f_status").value === SERVICE;
+  $("brieflen").textContent = svc || !n ? (n ? n + " chars" : "") : n + " / " + BRIEF_MIN;
+  $("brieflen").className = "brieflen" + (!svc && n && n < BRIEF_MIN ? " short" : "");
+}
+function isShown(k){ var f = document.querySelector('.fld[data-k="' + k + '"]'); return !!(f && f.offsetParent !== null); }
+
+/* ---- reset between clients ---- */
+var timeEdited = false;
 function resetForClient(){
-  ["f_client","f_mobile","f_refby","f_curinv","f_planinv","f_duration","f_brief","f_plan","f_followup","f_remarks"].forEach(function(id){ $(id).value = ""; });
-  ["f_source","f_timeline","f_itype","f_status","f_action"].forEach(function(id){ $(id).selectedIndex = 0; });
-  document.querySelectorAll('#rmform input[type=radio]').forEach(function(r){ r.checked = false; });
+  ["f_client","f_mobile","f_refby","f_curinv","f_planinv","f_duration","f_brief","f_followup","f_invamt","f_invdate",
+   "f_meeting","f_refname","f_refmobile"].forEach(function(id){ $(id).value = ""; });
+  ["f_source","f_timeline","f_status","f_action"].forEach(function(id){ $(id).selectedIndex = 0; });
+  document.querySelectorAll('#rmform input[type=radio], #rmform input[type=checkbox]').forEach(function(r){ r.checked = false; });
   var lastIt = store("rm_itype"); if (lastIt) $("f_itype").value = lastIt;
-  $("f_calltime").value = nowTime();
-  $("refwrap").style.display = "none";
-  ["h_curinv","h_planinv","h_followup"].forEach(function(id){ $(id).innerHTML = ""; });
+  timeEdited = false; $("w_calltime").hidden = true; $("f_calltime").value = nowTime();
+  ["h_curinv","h_planinv","h_invamt","h_followup"].forEach(function(id){ $(id).innerHTML = ""; });
+  $("lk_msg").hidden = true; lastLookup = "";
   document.querySelectorAll(".fld.bad").forEach(function(f){ f.classList.remove("bad"); });
   $("errmsg").style.display = "none";
+  applyVisibility();
 }
 $("f_rm").value = store("rm_name") || "";
 $("f_date").value = isoDate(new Date());
@@ -312,24 +399,32 @@ $("f_date").addEventListener("change", showCount);
 
 /* ---- quick buttons ---- */
 document.querySelectorAll(".quick[data-set] .qbtn").forEach(function(b){
-  b.addEventListener("click", function(){
-    var inp = $(b.parentNode.getAttribute("data-set")); inp.value = b.getAttribute("data-v");
-    inp.dispatchEvent(new Event("input"));
-  });
+  b.addEventListener("click", function(){ setv(b.parentNode.getAttribute("data-set"), b.getAttribute("data-v")); });
 });
-document.querySelectorAll("[data-now]").forEach(function(b){
-  b.addEventListener("click", function(){ $(b.getAttribute("data-now")).value = nowTime(); });
-});
+$("edittime").addEventListener("click", function(){ timeEdited = true; $("w_calltime").hidden = false; $("h_calltime").hidden = true; $("f_calltime").focus(); });
 document.querySelectorAll("#fuquick .qbtn").forEach(function(b){
   b.addEventListener("click", function(){
     var base = $("f_date").value ? new Date($("f_date").value + "T00:00:00") : new Date();
     base.setDate(base.getDate() + Number(b.getAttribute("data-d")));
-    $("f_followup").value = isoDate(base); $("f_followup").dispatchEvent(new Event("input"));
+    setv("f_followup", isoDate(base));
+  });
+});
+document.querySelectorAll("#briefquick .qbtn").forEach(function(b){
+  b.addEventListener("click", function(){
+    var t = $("f_brief"), add = b.textContent;
+    setv("f_brief", t.value.trim() ? t.value.trim() + "; " + add : add + " - ");
+    if (add === NOT_REACHABLE && !$("f_followup").value) {
+      var d = $("f_date").value ? new Date($("f_date").value + "T00:00:00") : new Date();
+      d.setDate(d.getDate() + 1);
+      setv("f_followup", isoDate(d));
+    }
+    applyVisibility();
+    t.focus();
   });
 });
 
 /* ---- live helpers ---- */
-["curinv","planinv"].forEach(function(k){
+["curinv","planinv","invamt"].forEach(function(k){
   $("f_" + k).addEventListener("input", function(){
     var v = $("f_" + k).value; $("h_" + k).innerHTML = Number(v) ? "<b>" + inr(v) + "</b> · " + words(v) : "";
   });
@@ -339,37 +434,60 @@ $("f_followup").addEventListener("input", function(){
   var d = new Date(v + "T00:00:00");
   $("h_followup").innerHTML = "<b>" + d.toLocaleDateString("en-IN", {weekday:"long", day:"numeric", month:"long", year:"numeric"}) + "</b>";
 });
-$("f_source").addEventListener("change", function(){
-  var ref = $("f_source").value === "Investor Referral";
-  $("refwrap").style.display = ref ? "block" : "none";
-  if (!ref) $("f_refby").value = "";
-});
 document.querySelectorAll('input[name="ctype"]').forEach(function(r){
   r.addEventListener("change", function(){
-    if (r.value === "New Client" && !$("f_curinv").value) { $("f_curinv").value = "0"; $("f_curinv").dispatchEvent(new Event("input")); }
-    if (r.value === "Existing Investor" && !$("f_source").value) { $("f_source").value = "Existing Investor"; }
+    if (r.value === "New Client" && !$("f_curinv").value) setv("f_curinv", "0");
   });
 });
-function followupNeeded(){ return NEEDS_FOLLOWUP.indexOf($("f_status").value) !== -1 && $("f_action").value !== "No Action"; }
-function syncFollowReq(){ $("fureq").style.display = followupNeeded() ? "inline" : "none"; }
-syncFollowReq();
-$("f_status").addEventListener("change", function(){
-  var s = $("f_status").value;
-  if ((s === "Not Interested" || s === "Closed" || s === "Service / General Call") && !$("f_action").value) $("f_action").value = "No Action";
-  if (s === "Service / General Call" && !radioVal("potential")) { var na = document.querySelector('input[name="potential"][value="N/A"]'); if (na) na.checked = true; }
-  syncFollowReq();
-});
-document.querySelectorAll("#briefquick .qbtn").forEach(function(b){
-  b.addEventListener("click", function(){
-    var t = $("f_brief"), add = b.textContent;
-    t.value = t.value.trim() ? t.value.trim() + "; " + add : add;
-    t.dispatchEvent(new Event("input", {bubbles:true}));
-  });
-});
-$("f_action").addEventListener("change", syncFollowReq);
-$("f_mobile").addEventListener("input", function(){ this.value = this.value.replace(/[^\d+ ]/g, ""); });
+$("f_mobile").addEventListener("input", function(){ this.value = this.value.replace(/[^\d+ ]/g, ""); maybeLookup(); });
+$("f_refmobile").addEventListener("input", function(){ this.value = this.value.replace(/[^\d+ ]/g, ""); });
+$("f_brief").addEventListener("input", briefCount);
 ["input", "change"].forEach(function(evt){
-  $("rmform").addEventListener(evt, function(e){ var f = e.target.closest(".fld"); if (f) f.classList.remove("bad"); });
+  $("rmform").addEventListener(evt, function(e){
+    var f = e.target.closest(".fld"); if (f) f.classList.remove("bad");
+    if (e.target.name === "ctype" || e.target.name === "refasked" || ["f_status","f_source","f_action","f_brief"].indexOf(e.target.id) !== -1) applyVisibility();
+  });
+});
+
+/* ---- existing-client search by mobile (Apps Script JSONP, team PIN) ---- */
+var lastLookup = "";
+function lookupMsg(cls, html){ var m = $("lk_msg"); m.className = "lookup" + (cls ? " " + cls : ""); m.innerHTML = html; m.hidden = false; }
+function maybeLookup(){ var m = digits10($("f_mobile").value); if (m.length === 10 && m !== lastLookup && store("rm_pin")) lookup(m); }
+function lookup(m){
+  if (!LOOKUP_URL || LOOKUP_URL.indexOf("__") === 0) { lookupMsg("warn", "Client search is not set up yet."); return; }
+  var pin = store("rm_pin");
+  if (!pin) { $("lk_msg").hidden = true; $("w_pin").hidden = false; $("f_pin").focus(); return; }   // PIN typed in a masked box, never shown
+  lastLookup = m;
+  lookupMsg("", "Searching…");
+  var s = document.createElement("script");
+  s.src = LOOKUP_URL + "?m=" + m + "&k=" + encodeURIComponent(pin) + "&cb=rmFound&t=" + Date.now();
+  s.onerror = function(){ lookupMsg("warn", "Search failed — please fill in manually."); };
+  document.body.appendChild(s);
+  setTimeout(function(){ s.remove(); }, 15000);
+}
+window.rmFound = function(r){
+  if (!r || r.error === "pin") { store("rm_pin", null); lastLookup = ""; lookupMsg("warn", "Wrong or old team PIN. Tap “Find existing client” to enter it again."); return; }
+  if (r.error === "locked") { lastLookup = ""; lookupMsg("warn", "Search paused for 15 minutes (too many wrong PINs). Please fill in manually."); return; }
+  if (r.error) { lookupMsg("warn", "Search failed — please fill in manually."); return; }
+  if (digits10($("f_mobile").value) !== r.m) return;          // number changed while searching
+  if (!r.found) { lookupMsg("", "New number — no previous entry. Fill in the details below."); return; }
+  if (r.name && !$("f_client").value.trim()) setv("f_client", r.name);
+  if (r.ctype) { var c = document.querySelector('input[name="ctype"][value="' + r.ctype + '"]'); if (c) { c.checked = true; applyVisibility(); } }
+  if (r.curinv && !$("f_curinv").value) setv("f_curinv", r.curinv);
+  lookupMsg("ok", "✓ Existing client: <b>" + esc(r.name || "") + "</b> · " + r.count + " earlier entr" + (r.count === 1 ? "y" : "ies") +
+    (r.last ? " · last " + esc(r.last) + (r.rm ? " by " + esc(r.rm) : "") + (r.status ? " (" + esc(r.status) + ")" : "") : "") + "<br>Details filled in — please check them.");
+};
+function savePin(){
+  var p = $("f_pin").value.trim(); if (!p) { $("f_pin").focus(); return; }
+  store("rm_pin", p); $("f_pin").value = ""; $("w_pin").hidden = true; lastLookup = "";
+  var m = digits10($("f_mobile").value); if (m.length === 10) lookup(m);
+}
+$("pinbtn").addEventListener("click", savePin);
+$("f_pin").addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); savePin(); } });
+$("lookupbtn").addEventListener("click", function(){
+  var m = digits10($("f_mobile").value);
+  if (m.length !== 10) { lookupMsg("warn", "Enter the 10-digit mobile number first."); return; }
+  lookup(m);
 });
 
 /* ---- submit ---- */
@@ -377,41 +495,57 @@ var busy = false;
 $("rmform").addEventListener("submit", function(ev){
   ev.preventDefault();
   if (busy) return;
-  var mobileDigits = $("f_mobile").value.replace(/\D/g, "").replace(/^91(?=\d{10}$)/, "");
+  var status = $("f_status").value, svc = status === SERVICE;
   var v = {
     date:      dmy($("f_date").value),
-    rm:        $("f_rm").value.trim(),
+    rm:        $("f_rm").value,
     client:    $("f_client").value.trim(),
-    mobile:    mobileDigits,
+    mobile:    digits10($("f_mobile").value),
     ctype:     radioVal("ctype"),
     source:    $("f_source").value,
-    refby:     $("f_source").value === "Investor Referral" ? $("f_refby").value.trim() : "NA",
+    refby:     $("f_refby").value.trim(),
     curinv:    $("f_curinv").value === "" ? "" : String(Math.round(Number($("f_curinv").value))),
     planinv:   $("f_planinv").value === "" ? "" : String(Math.round(Number($("f_planinv").value))),
     timeline:  $("f_timeline").value,
-    calltime:  $("f_calltime").value,
+    calltime:  timeEdited && $("f_calltime").value ? $("f_calltime").value : nowTime(),
     duration:  $("f_duration").value,
     itype:     $("f_itype").value,
-    brief:     $("f_brief").value.trim(),
-    plan:      $("f_plan").value.trim(),
+    brief:     $("f_brief").value.trim().replace(/\s*-\s*$/, ""),
+    plan:      "",                       // merged into Discussion / Notes (column kept for reports)
     potential: radioVal("potential"),
     followup:  dmy($("f_followup").value),
     action:    $("f_action").value,
-    status:    $("f_status").value,
-    remarks:   $("f_remarks").value.trim()
+    status:    status,
+    remarks:   "",                       // merged into Discussion / Notes (column kept for reports)
+    refasked:  radioVal("refasked"),
+    refname:   $("f_refname").value.trim(),
+    refmobile: digits10($("f_refmobile").value),
+    invamt:    $("f_invamt").value === "" ? "" : String(Math.round(Number($("f_invamt").value))),
+    invdate:   dmy($("f_invdate").value),
+    products:  checkedVals("products").join(", "),
+    meeting:   dmyTime($("f_meeting").value)
   };
-  var required = ["date","rm","client","mobile","itype","brief"];
-  if (followupNeeded()) required.push("followup");
-  if (v.source === "Investor Referral" && !v.refby) v.refby = "-";
-  var bad = [];
-  required.forEach(function(k){ if (!v[k]) bad.push(k); });
-  if (mobileDigits.length !== 10 && bad.indexOf("mobile") === -1) bad.push("mobile");
+  // Anything the RM cannot see is sent as "-" (reports rely on it).
+  Object.keys(v).forEach(function(k){ if (k !== "calltime" && document.querySelector('.fld[data-k="' + k + '"]') && !isShown(k)) v[k] = ""; });
+
+  var bad = [], why = [];
+  ["date","rm","mobile","client","itype","status","brief"].forEach(function(k){ if (!v[k]) bad.push(k); });
+  if (v.mobile && v.mobile.length !== 10) { bad.push("mobile"); why.push("Mobile number must be 10 digits."); }
+  if (!svc && v.brief && v.brief.length < BRIEF_MIN) { bad.push("brief"); why.push("Discussion / Notes needs at least " + BRIEF_MIN + " characters."); }
+  if (NEEDS_PLAN.indexOf(status) !== -1) { if (!v.planinv) bad.push("planinv"); if (!v.timeline) bad.push("timeline"); }
+  if ((notReachable() || (status && NO_FOLLOWUP.indexOf(status) === -1)) && !v.followup) bad.push("followup");
+  if (status === "Invested") { if (!v.invamt) bad.push("invamt"); if (!v.invdate) bad.push("invdate"); }
+  if (isShown("meeting") && !v.meeting) bad.push("meeting");
+  if (v.refasked === "Yes") {
+    if (!v.refname) bad.push("refname");
+    if (v.refmobile.length !== 10) { bad.push("refmobile"); if (v.refmobile) why.push("Referral mobile must be 10 digits."); }
+  }
 
   document.querySelectorAll(".fld").forEach(function(f){ f.classList.toggle("bad", bad.indexOf(f.getAttribute("data-k")) !== -1); });
   if (bad.length) {
-    $("errmsg").textContent = (bad.indexOf("mobile") !== -1 && v.mobile ? "Mobile number must be 10 digits. " : "") + "Please fill the fields marked in red / લાલ નિશાનીવાળી વિગતો ભરો";
+    $("errmsg").innerHTML = why.map(esc).join("<br>") + (why.length ? "<br>" : "") + "Please fill the fields marked in red / લાલ નિશાનીવાળી વિગતો ભરો";
     $("errmsg").style.display = "block";
-    var first = document.querySelector('.fld[data-k="' + bad[0] + '"]');
+    var first = document.querySelector(".fld.bad");
     if (first) first.scrollIntoView({behavior:"smooth", block:"center"});
     return;
   }
@@ -423,8 +557,8 @@ $("rmform").addEventListener("submit", function(ev){
   Object.keys(ENTRY).forEach(function(k){
     var i = document.createElement("input"); i.type = "hidden"; i.name = "entry." + ENTRY[k]; i.value = v[k] || "-"; gf.appendChild(i);
   });
-  ["fvv=1", "pageHistory=0"].forEach(function(p){
-    var i = document.createElement("input"); i.type = "hidden"; i.name = p.split("=")[0]; i.value = p.split("=")[1]; gf.appendChild(i);
+  [["fvv", "1"], ["pageHistory", "0"]].forEach(function(p){
+    var i = document.createElement("input"); i.type = "hidden"; i.name = p[0]; i.value = p[1]; gf.appendChild(i);
   });
 
   busy = true;
@@ -435,12 +569,15 @@ $("rmform").addEventListener("submit", function(ev){
     btn.disabled = false; btn.textContent = "✓ SAVE ENTRY / એન્ટ્રી સેવ કરો";
     store(countKey(), String((Number(store(countKey())) || 0) + 1)); showCount();
     var rows = [["Client", v.client + " · " + v.mobile], ["Type", [v.ctype, v.source].filter(Boolean).join(" · ") || "—"],
-      ["Brief", v.brief],
-      ["Planned", Number(v.planinv) ? inr(v.planinv) + " (" + words(v.planinv) + ")" : "—"],
-      ["Potential", v.potential || "—"], ["Status", [v.status, v.action].filter(Boolean).join(" → ") || "—"],
-      ["Follow-up", v.followup || "—"]];
+      ["Status", [v.status, v.action].filter(Boolean).join(" → ") || "—"],
+      ["Notes", v.brief], ["Products", v.products || "—"]];
+    if (Number(v.planinv)) rows.push(["Planned", inr(v.planinv) + " (" + words(v.planinv) + ")"]);
+    if (Number(v.invamt)) rows.push(["Invested", inr(v.invamt) + " on " + v.invdate]);
+    if (v.meeting) rows.push(["Meeting", v.meeting]);
+    if (v.followup) rows.push(["Follow-up", v.followup]);
+    if (v.refasked === "Yes") rows.push(["Referral", v.refname + " · " + v.refmobile]);
     $("summary").innerHTML = rows.map(function(r){
-      return '<div class="srow"><div class="k">' + r[0] + '</div><div class="v">' + String(r[1]).replace(/</g, "&lt;") + '</div></div>';
+      return '<div class="srow"><div class="k">' + r[0] + '</div><div class="v">' + esc(r[1]) + '</div></div>';
     }).join("");
     $("formview").style.display = "none"; $("confirmview").style.display = "block"; window.scrollTo(0, 0);
   }
@@ -452,7 +589,7 @@ $("rmform").addEventListener("submit", function(ev){
 $("nextbtn").addEventListener("click", function(){
   resetForClient();
   $("confirmview").style.display = "none"; $("formview").style.display = "block"; window.scrollTo(0, 0);
-  $("f_client").focus();
+  $("f_mobile").focus();
 });
 </script>
 </body>
