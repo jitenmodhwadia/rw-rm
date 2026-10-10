@@ -4,3 +4,5 @@ build.py
 form_template.html
 logo.txt
 __pycache__/
+# Apps Script source holds the team PIN - never publish
+apps_script_*.gs

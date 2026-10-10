@@ -113,9 +113,10 @@
     </div>
 
     <div id="formview">
-      <div class="guide">Fill <b>one entry for every client / investor interaction</b> — sales or not. Fields marked <span class="req">*</span> are required; if something was <b>not discussed, leave it blank</b>.<br>
-        For payout, KYC or other non-sales calls choose Status <b>"Service / General Call"</b> — the investment and follow-up parts disappear.<br>
-        <span style="color:var(--gold-dark);">ફક્ત * વાળી વિગતો જરૂરી છે. જે વાત ન થઈ હોય તે ખાલી રાખો. સર્વિસ / સામાન્ય કૉલ માટે Status માં "Service / General Call" પસંદ કરો — રોકાણ અને ફોલો-અપ વિભાગ છુપાઈ જશે.</span></div>
+      <div class="guide">Fill <b>one entry for every client / investor interaction</b>, <b>right after the call</b>. Fields marked <span class="req">*</span> are required.<br>
+        Call not connected? Tap <b>No</b>: the entry is saved in 10 seconds.<br>
+        <b>Purpose</b> = why you called. <b>Outcome</b> = what happened. A payout call where the client shows interest is Purpose "Payout query" + Outcome <b>"Interested"</b>.<br>
+        <span style="color:var(--gold-dark);">દરેક કૉલ પછી તરત એન્ટ્રી કરો. કૉલ ન લાગ્યો? “No” દબાવો, 10 સેકન્ડમાં સેવ. Purpose = શા માટે કૉલ કર્યો, Outcome = શું પરિણામ આવ્યું. સર્વિસ કૉલમાં પણ ક્લાયન્ટ રસ બતાવે તો Outcome “Interested” પસંદ કરો.</span></div>
 
       <form id="rmform" novalidate autocomplete="off">
 
@@ -134,6 +135,13 @@
             <label class="l" for="f_itype">Interaction Type <span class="req">*</span></label>
             <select id="f_itype"><option value="">— Select —</option><option value="Incoming Call">Incoming Call</option><option value="Outgoing Call">Outgoing Call</option><option value="WhatsApp Call">WhatsApp Call</option><option value="Office Meeting">Office Meeting</option><option value="Site Meeting">Site Meeting</option><option value="WhatsApp Chat">WhatsApp Chat</option></select>
           </div>
+          <div class="fld" data-k="connected" id="w_connected">
+            <label class="l">Call connected? <span class="g" style="color:var(--gold-dark);">/ કૉલ લાગ્યો?</span> <span class="req">*</span></label>
+            <div class="chips">
+              <label class="chip hi"><input type="radio" name="connected" value="Yes"><span>Yes</span></label>
+              <label class="chip lo"><input type="radio" name="connected" value="No"><span>No</span></label>
+            </div>
+          </div>
           <div class="fld" data-k="duration">
             <label class="l" for="f_duration">Call Duration (Min)</label>
             <input type="number" id="f_duration" inputmode="numeric" min="0" placeholder="e.g. 10">
@@ -144,11 +152,12 @@
             </div>
           </div>
           <div class="fld full" data-k="calltime">
-            <div class="hint" id="h_calltime">Call time is saved automatically. <button type="button" class="linkbtn" id="edittime">Edit time</button> (for a call logged later)</div>
-            <div id="w_calltime" hidden>
-              <label class="l" for="f_calltime">Call Time</label>
+            <label class="l">When was the call? <span class="g" style="color:var(--gold-dark);">/ કૉલ ક્યારે થયો?</span></label>
+            <div class="chips"><label class="chip"><input type="radio" name="when" value="Just now"><span>Just now</span></label><label class="chip"><input type="radio" name="when" value="1 hr ago"><span>1 hr ago</span></label><label class="chip"><input type="radio" name="when" value="2 hrs ago"><span>2 hrs ago</span></label><label class="chip"><input type="radio" name="when" value="3 hrs ago"><span>3 hrs ago</span></label><label class="chip"><input type="radio" name="when" value="Exact time"><span>Exact time</span></label></div>
+            <div id="w_calltime" hidden style="margin-top:8px;">
               <input type="time" id="f_calltime">
             </div>
+            <div class="hint" id="h_calltime"></div>
           </div>
         </div>
 
@@ -174,8 +183,8 @@
             <label class="l">Client Type</label>
             <div class="chips"><label class="chip"><input type="radio" name="ctype" value="Existing Investor"><span>Existing Investor</span></label><label class="chip"><input type="radio" name="ctype" value="New Client"><span>New Client</span></label></div>
           </div>
-          <div class="fld" data-k="source" id="w_source" hidden>
-            <label class="l" for="f_source">Source</label>
+          <div class="fld" data-k="source" id="w_source">
+            <label class="l" for="f_source">Original Source <span style="font-weight:600; color:#8a8a8a;">(how they first came)</span></label>
             <select id="f_source"><option value="">— Select —</option><option value="Direct Call">Direct Call</option><option value="Walk-in">Walk-in</option><option value="Investor Referral">Investor Referral</option><option value="Existing Investor">Existing Investor</option><option value="WhatsApp">WhatsApp</option><option value="Other">Other</option></select>
           </div>
           <div class="fld" data-k="refby" id="w_refby" hidden>
@@ -184,11 +193,37 @@
           </div>
         </div>
 
+        <div id="sec_nc" hidden>
+          <div class="sec">Not connected <span class="g">/ કૉલ ન લાગ્યો</span></div>
+          <div class="grid">
+            <div class="fld full" data-k="ncreason">
+              <label class="l">What happened? <span class="req">*</span></label>
+              <div class="chips"><label class="chip"><input type="radio" name="ncreason" value="No answer"><span>No answer</span></label><label class="chip"><input type="radio" name="ncreason" value="Switched off / Not reachable"><span>Switched off / Not reachable</span></label><label class="chip"><input type="radio" name="ncreason" value="Busy / Cut the call"><span>Busy / Cut the call</span></label><label class="chip"><input type="radio" name="ncreason" value="Asked to call later"><span>Asked to call later</span></label><label class="chip"><input type="radio" name="ncreason" value="Wrong number"><span>Wrong number</span></label></div>
+            </div>
+            <div class="fld full" data-k="ncfollow" id="w_ncfollow">
+              <label class="l" for="f_ncfollow">Try again on <span class="req">*</span></label>
+              <input type="date" id="f_ncfollow">
+              <div class="quick" data-days="f_ncfollow">
+                <button type="button" class="qbtn" data-d="0">Today</button><button type="button" class="qbtn" data-d="1">Tomorrow</button>
+                <button type="button" class="qbtn" data-d="2">+2 days</button><button type="button" class="qbtn" data-d="7">+1 week</button>
+              </div>
+              <div class="hint" id="h_ncfollow"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sec_talk">
+
         <div class="sec">3 · Call Outcome <span class="g">/ વાતચીતનું પરિણામ</span></div>
         <div class="grid">
+          <div class="fld full" data-k="purpose">
+            <label class="l">Purpose of call <span class="g" style="color:var(--gold-dark);">/ કૉલનો હેતુ</span> <span class="req">*</span></label>
+            <div class="chips"><label class="chip"><input type="radio" name="purpose" value="New investment / Sales"><span>New investment / Sales</span></label><label class="chip"><input type="radio" name="purpose" value="Renewal"><span>Renewal</span></label><label class="chip"><input type="radio" name="purpose" value="Payout query"><span>Payout query</span></label><label class="chip"><input type="radio" name="purpose" value="Documents / KYC"><span>Documents / KYC</span></label><label class="chip"><input type="radio" name="purpose" value="Complaint"><span>Complaint</span></label><label class="chip"><input type="radio" name="purpose" value="Courtesy call"><span>Courtesy call</span></label><label class="chip"><input type="radio" name="purpose" value="Referral follow-up"><span>Referral follow-up</span></label><label class="chip"><input type="radio" name="purpose" value="Other"><span>Other</span></label></div>
+          </div>
           <div class="fld full" data-k="status">
-            <label class="l" for="f_status">Status <span class="req">*</span></label>
-            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Lost / Not Investing">Lost / Not Investing</option><option value="Service / General Call">Service / General Call</option></select>
+            <label class="l" for="f_status">Outcome <span class="g" style="color:var(--gold-dark);">/ પરિણામ</span> <span class="req">*</span></label>
+            <select id="f_status"><option value="">— Select —</option><option value="New Lead">New Lead</option><option value="Interested">Interested</option><option value="Follow-up">Follow-up</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Invested">Invested</option><option value="Not Interested">Not Interested</option><option value="Lost / Not Investing">Lost / Not Investing</option><option value="Service / General Call">Service done (no sales talk)</option></select>
+            <div class="hint">Client showed interest on a service call? Choose <b>Interested</b>, not “Service done”.</div>
           </div>
           <div class="fld full" data-k="products">
             <label class="l">Product Discussed <span style="font-weight:600; color:#8a8a8a;">(tap all that apply)</span></label>
@@ -199,9 +234,7 @@
             <textarea id="f_brief" placeholder="What was discussed, the client's plan, and any remark. e.g. Wants to add ₹10 lakh after 15 days; will discuss with family."></textarea>
             <div class="quick" id="briefquick">
               <button type="button" class="qbtn">Renewal discussed</button><button type="button" class="qbtn">New plan explained</button>
-              <button type="button" class="qbtn">Payout query</button><button type="button" class="qbtn">Documents / KYC</button>
-              <button type="button" class="qbtn">Complaint</button><button type="button" class="qbtn">Courtesy call</button>
-              <button type="button" class="qbtn">Not reachable / no answer</button>
+              <button type="button" class="qbtn">Will discuss with family</button><button type="button" class="qbtn">Query solved</button>
             </div>
             <div class="hint" id="h_brief">Minimum 25 characters for sales calls — add a few words after the quick button.</div>
           </div>
@@ -226,9 +259,15 @@
               </div>
               <div class="hint" id="h_planinv"></div>
             </div>
-            <div class="fld" data-k="timeline">
-              <label class="l" for="f_timeline">Investment Timeline <span class="req" id="req_timeline" hidden>*</span></label>
-              <select id="f_timeline"><option value="">— Select —</option><option value="Today">Today</option><option value="Within 3 Days">Within 3 Days</option><option value="Within 7 Days">Within 7 Days</option><option value="Within 15 Days">Within 15 Days</option><option value="Within 1 Month">Within 1 Month</option><option value="1–3 Months">1–3 Months</option><option value="3–6 Months">3–6 Months</option><option value="Not Decided">Not Decided</option><option value="Not Discussed">Not Discussed</option></select>
+            <div class="fld" data-k="expdate">
+              <label class="l" for="f_expdate">Investment ક્યારે આવશે? <span style="font-weight:600; color:#8a8a8a;">(expected date)</span> <span class="req" id="req_expdate" hidden>*</span></label>
+              <input type="date" id="f_expdate">
+              <div class="quick" data-days="f_expdate">
+                <button type="button" class="qbtn" data-d="0">Today</button><button type="button" class="qbtn" data-d="3">+3 days</button>
+                <button type="button" class="qbtn" data-d="7">+1 week</button><button type="button" class="qbtn" data-d="15">+15 days</button>
+                <button type="button" class="qbtn" data-d="30">+1 month</button><button type="button" class="qbtn" data-d="90">+3 months</button>
+              </div>
+              <div class="hint" id="h_expdate"></div>
             </div>
             <div class="fld" data-k="potential">
               <label class="l">Potential</label>
@@ -243,6 +282,13 @@
               <label class="l" for="f_invdate">Invested Date <span class="req">*</span></label>
               <input type="date" id="f_invdate">
             </div>
+            <div class="fld full" data-k="invname" id="w_invname" hidden>
+              <label class="l">કોના નામે investment? <span style="font-weight:600; color:#8a8a8a;">(in whose name)</span> <span class="req">*</span></label>
+              <div class="chips"><label class="chip"><input type="radio" name="invrel" value="Self"><span>Self</span></label><label class="chip"><input type="radio" name="invrel" value="Spouse"><span>Spouse</span></label><label class="chip"><input type="radio" name="invrel" value="Son"><span>Son</span></label><label class="chip"><input type="radio" name="invrel" value="Daughter"><span>Daughter</span></label><label class="chip"><input type="radio" name="invrel" value="Parent"><span>Parent</span></label><label class="chip"><input type="radio" name="invrel" value="Other family"><span>Other family</span></label><label class="chip"><input type="radio" name="invrel" value="Company / HUF"><span>Company / HUF</span></label></div>
+              <div id="w_invperson" hidden style="margin-top:8px;">
+                <input type="text" id="f_invperson" autocapitalize="words" placeholder="Name of that person / firm">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -250,7 +296,7 @@
           <div class="sec">5 · Next Step <span class="g">/ આગળનું પગલું</span></div>
           <div class="grid">
             <div class="fld full" data-k="action">
-              <label class="l" for="f_action">Next Action</label>
+              <label class="l" for="f_action">Next Action <span class="req" id="req_action" hidden>*</span></label>
               <select id="f_action"><option value="">— Select —</option><option value="Call Back">Call Back</option><option value="Meeting">Meeting</option><option value="Send Details">Send Details</option><option value="Send Proposal">Send Proposal</option><option value="Collect Documents">Collect Documents</option><option value="Follow-up">Follow-up</option><option value="No Action">No Action</option></select>
             </div>
             <div class="fld full" data-k="meeting" id="w_meeting" hidden>
@@ -260,7 +306,7 @@
             <div class="fld full" data-k="followup">
               <label class="l" for="f_followup">Next Follow-up Date <span class="req" id="req_followup">*</span></label>
               <input type="date" id="f_followup">
-              <div class="quick" id="fuquick">
+              <div class="quick" data-days="f_followup">
                 <button type="button" class="qbtn" data-d="1">Tomorrow</button><button type="button" class="qbtn" data-d="2">+2 days</button>
                 <button type="button" class="qbtn" data-d="3">+3 days</button><button type="button" class="qbtn" data-d="7">+1 week</button>
                 <button type="button" class="qbtn" data-d="15">+15 days</button><button type="button" class="qbtn" data-d="30">+1 month</button>
@@ -272,12 +318,9 @@
 
         <div class="sec">6 · Referral <span class="g">/ રેફરલ</span></div>
         <div class="grid">
-          <div class="fld full" data-k="refasked">
-            <label class="l">Referral asked?</label>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="refasked" value="Yes"><span>Yes</span></label>
-              <label class="chip"><input type="radio" name="refasked" value="No"><span>No</span></label>
-            </div>
+          <div class="fld full" data-k="refresult">
+            <label class="l">Referral asked? <span class="g" style="color:var(--gold-dark);">/ રેફરલ માંગ્યો?</span></label>
+            <div class="chips"><label class="chip"><input type="radio" name="refresult" value="Not asked"><span>Not asked</span></label><label class="chip"><input type="radio" name="refresult" value="Gave referral"><span>Gave referral</span></label><label class="chip"><input type="radio" name="refresult" value="Will give later"><span>Will give later</span></label><label class="chip"><input type="radio" name="refresult" value="Refused"><span>Refused</span></label></div>
           </div>
           <div class="fld" data-k="refname" id="w_refname" hidden>
             <label class="l" for="f_refname">Referral Name <span class="req">*</span></label>
@@ -288,6 +331,7 @@
             <input type="tel" id="f_refmobile" inputmode="numeric" maxlength="14" placeholder="10 digits">
           </div>
         </div>
+        </div><!-- /sec_talk -->
 
         <div class="err" id="errmsg"></div>
         <button type="submit" class="btn btn-submit" id="subbtn">✓ SAVE ENTRY / એન્ટ્રી સેવ કરો</button>
@@ -311,18 +355,22 @@
   <form id="gform" action="https://docs.google.com/forms/d/e/1FAIpQLSeZ47RfCaBX41-7Pgwb5mREP4z8rcSfTaBtyag6PKbdcJ0b0g/formResponse" method="POST" target="gsink" style="display:none"></form>
 
 <script>
-var ENTRY = {"date": "1083711792", "rm": "911387376", "client": "1658779873", "mobile": "1087840083", "ctype": "1971037835", "source": "1316279233", "refby": "1521717369", "curinv": "1728183405", "planinv": "2141153054", "timeline": "864499553", "calltime": "2017782479", "duration": "486790726", "itype": "1737429724", "brief": "1378948956", "plan": "1769908538", "potential": "1073947772", "followup": "388960185", "action": "593555457", "status": "1503723516", "remarks": "797750868", "refasked": "1045359845", "refname": "435506255", "refmobile": "1814692818", "invamt": "218190726", "invdate": "1219259852", "products": "832480533", "meeting": "260921087"};          // field key -> Google Form entry id (sheet columns B..)
+var ENTRY = {"date": "1083711792", "rm": "911387376", "client": "1658779873", "mobile": "1087840083", "ctype": "1971037835", "source": "1316279233", "refby": "1521717369", "curinv": "1728183405", "planinv": "2141153054", "timeline": "864499553", "calltime": "2017782479", "duration": "486790726", "itype": "1737429724", "brief": "1378948956", "plan": "1769908538", "potential": "1073947772", "followup": "388960185", "action": "593555457", "status": "1503723516", "remarks": "797750868", "refasked": "1045359845", "refname": "435506255", "refmobile": "1814692818", "invamt": "218190726", "invdate": "1219259852", "products": "832480533", "meeting": "260921087", "connected": "309930753", "purpose": "691842509", "expdate": "1303529231", "invname": "1277143733", "refresult": "1782579441", "loggedat": "1417888491"};          // field key -> Google Form entry id (sheet columns B..)
 var LOOKUP_URL = "https://script.google.com/macros/s/AKfycbyBA_M1cUQY1YJ8IpEybzuJyZq-TqRnJVcCvse6RF10tFO7oUN7tFktfkB1xAx5UMI/exec";   // Apps Script web app: existing-client search by mobile
-var SERVICE = "Service / General Call";
+var SERVICE = "Service / General Call";             // shown to RMs as "Service done (no sales talk)"
+var NOT_CONNECTED = "Not Reachable";                // Status sent when the call did not connect (v3)
 var NO_FOLLOWUP = ["Invested", "Not Interested", "Lost / Not Investing", SERVICE];
-var NEEDS_PLAN = ["Interested", "Planning", "Confirmed"];
+var NEEDS_PLAN = ["Interested", "Planning", "Confirmed"];   // amount + expected date + next action required
+var NEEDS_NAME = NEEDS_PLAN.concat(["Invested"]);            // "in whose name" asked
+var CALL_TYPES = ["Incoming Call", "Outgoing Call", "WhatsApp Call"];
+var WHEN_HOURS = {"Just now": 0, "1 hr ago": 1, "2 hrs ago": 2, "3 hrs ago": 3};
 var BRIEF_MIN = 25;
-var NOT_REACHABLE = "Not reachable / no answer";   // forces a follow-up date (default tomorrow) so we call again
 
 function $(id){ return document.getElementById(id); }
 function pad(n){ return (n < 10 ? "0" : "") + n; }
 function isoDate(d){ return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
-function nowTime(){ var d = new Date(); return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function hhmm(d){ return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function nowTime(){ return hhmm(new Date()); }
 function dmy(iso){ if(!iso) return ""; var p = iso.split("-"); return p[2] + "-" + p[1] + "-" + p[0]; }
 function dmyTime(dt){ if(!dt) return ""; var p = dt.split("T"); return dmy(p[0]) + " " + (p[1] || "").slice(0, 5); }
 function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){ return null; } }
@@ -343,6 +391,21 @@ function words(n){
   return String(n);
 }
 function esc(s){ return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+function callDate(){ return $("f_date").value ? new Date($("f_date").value + "T00:00:00") : new Date(new Date().toDateString()); }
+function daysFromCall(iso){ return Math.round((new Date(iso + "T00:00:00") - callDate()) / 86400000); }
+// Expected date -> the old "Investment Timeline" words, so the existing reports keep working.
+function timelineFor(iso){
+  if (!iso) return "";
+  var d = daysFromCall(iso);
+  if (d <= 0) return "Today";
+  if (d <= 3) return "Within 3 Days";
+  if (d <= 7) return "Within 7 Days";
+  if (d <= 15) return "Within 15 Days";
+  if (d <= 31) return "Within 1 Month";
+  if (d <= 92) return "1–3 Months";
+  if (d <= 183) return "3–6 Months";
+  return "6+ Months";
+}
 
 /* ---- today counter (per phone, per date) ---- */
 function countKey(){ return "rm_count_" + ($("f_date").value || isoDate(new Date())); }
@@ -352,21 +415,29 @@ function showCount(){
 }
 
 /* ---- show / hide by answers ---- */
-function notReachable(){ return $("f_brief").value.indexOf(NOT_REACHABLE) !== -1; }
-function followupRequired(){ return notReachable() || NO_FOLLOWUP.indexOf($("f_status").value) === -1; }
+function isCall(){ var t = $("f_itype").value; return !t || CALL_TYPES.indexOf(t) !== -1; }
+function notConnected(){ return isCall() && radioVal("connected") === "No"; }
+function followupRequired(){ return NO_FOLLOWUP.indexOf($("f_status").value) === -1; }
 function applyVisibility(){
-  var status = $("f_status").value, svc = status === SERVICE;
-  var newClient = radioVal("ctype") === "New Client";
-  $("w_source").hidden = !newClient;
-  $("w_refby").hidden = !(newClient && $("f_source").value === "Investor Referral");
+  var status = $("f_status").value, svc = status === SERVICE, nc = notConnected();
+  $("w_connected").hidden = !isCall();
+  document.querySelector('.fld[data-k="duration"]').hidden = nc;
+  $("sec_nc").hidden = !nc;
+  $("sec_talk").hidden = nc;
+  $("w_ncfollow").hidden = radioVal("ncreason") === "Wrong number";
+  $("w_refby").hidden = $("f_source").value !== "Investor Referral";
   $("sec_invest").hidden = svc;
-  $("sec_next").hidden = svc && !notReachable();
+  $("sec_next").hidden = svc;
   $("w_invamt").hidden = $("w_invdate").hidden = status !== "Invested";
+  $("w_invname").hidden = NEEDS_NAME.indexOf(status) === -1;
+  $("w_invperson").hidden = !radioVal("invrel") || radioVal("invrel") === "Self";
   $("w_meeting").hidden = $("f_action").value !== "Meeting";
-  $("w_refname").hidden = $("w_refmobile").hidden = radioVal("refasked") !== "Yes";
-  $("req_plan").hidden = $("req_timeline").hidden = NEEDS_PLAN.indexOf(status) === -1;
+  $("w_refname").hidden = $("w_refmobile").hidden = radioVal("refresult") !== "Gave referral";
+  $("req_plan").hidden = $("req_expdate").hidden = $("req_action").hidden = NEEDS_PLAN.indexOf(status) === -1;
   $("req_followup").hidden = !followupRequired();
+  $("w_calltime").hidden = radioVal("when") !== "Exact time";
   $("h_brief").hidden = svc;
+  callTimeHint();
   briefCount();
 }
 function briefCount(){
@@ -374,18 +445,23 @@ function briefCount(){
   $("brieflen").textContent = svc || !n ? (n ? n + " chars" : "") : n + " / " + BRIEF_MIN;
   $("brieflen").className = "brieflen" + (!svc && n && n < BRIEF_MIN ? " short" : "");
 }
+function callTime(){
+  var w = radioVal("when");
+  if (w === "Exact time") return $("f_calltime").value;
+  if (!(w in WHEN_HOURS)) return "";
+  return hhmm(new Date(Date.now() - WHEN_HOURS[w] * 3600000));
+}
+function callTimeHint(){ var t = callTime(); $("h_calltime").innerHTML = t ? "Call time saved as <b>" + t + "</b>" : ""; }
 function isShown(k){ var f = document.querySelector('.fld[data-k="' + k + '"]'); return !!(f && f.offsetParent !== null); }
 
 /* ---- reset between clients ---- */
-var timeEdited = false;
 function resetForClient(){
   ["f_client","f_mobile","f_refby","f_curinv","f_planinv","f_duration","f_brief","f_followup","f_invamt","f_invdate",
-   "f_meeting","f_refname","f_refmobile"].forEach(function(id){ $(id).value = ""; });
-  ["f_source","f_timeline","f_status","f_action"].forEach(function(id){ $(id).selectedIndex = 0; });
+   "f_meeting","f_refname","f_refmobile","f_expdate","f_invperson","f_ncfollow","f_calltime"].forEach(function(id){ $(id).value = ""; });
+  ["f_source","f_status","f_action"].forEach(function(id){ $(id).selectedIndex = 0; });
   document.querySelectorAll('#rmform input[type=radio], #rmform input[type=checkbox]').forEach(function(r){ r.checked = false; });
   var lastIt = store("rm_itype"); if (lastIt) $("f_itype").value = lastIt;
-  timeEdited = false; $("w_calltime").hidden = true; $("f_calltime").value = nowTime();
-  ["h_curinv","h_planinv","h_invamt","h_followup"].forEach(function(id){ $(id).innerHTML = ""; });
+  ["h_curinv","h_planinv","h_invamt","h_followup","h_expdate","h_ncfollow"].forEach(function(id){ $(id).innerHTML = ""; });
   $("lk_msg").hidden = true; lastLookup = "";
   document.querySelectorAll(".fld.bad").forEach(function(f){ f.classList.remove("bad"); });
   $("errmsg").style.display = "none";
@@ -395,30 +471,26 @@ $("f_rm").value = store("rm_name") || "";
 $("f_date").value = isoDate(new Date());
 resetForClient();
 showCount();
-$("f_date").addEventListener("change", showCount);
+$("f_date").addEventListener("change", function(){
+  showCount();
+  // "1 hr ago" only makes sense for today's calls
+  if ($("f_date").value && $("f_date").value !== isoDate(new Date())) { document.querySelector('input[name="when"][value="Exact time"]').checked = true; applyVisibility(); }
+});
 
 /* ---- quick buttons ---- */
 document.querySelectorAll(".quick[data-set] .qbtn").forEach(function(b){
   b.addEventListener("click", function(){ setv(b.parentNode.getAttribute("data-set"), b.getAttribute("data-v")); });
 });
-$("edittime").addEventListener("click", function(){ timeEdited = true; $("w_calltime").hidden = false; $("h_calltime").hidden = true; $("f_calltime").focus(); });
-document.querySelectorAll("#fuquick .qbtn").forEach(function(b){
+document.querySelectorAll(".quick[data-days] .qbtn").forEach(function(b){
   b.addEventListener("click", function(){
-    var base = $("f_date").value ? new Date($("f_date").value + "T00:00:00") : new Date();
-    base.setDate(base.getDate() + Number(b.getAttribute("data-d")));
-    setv("f_followup", isoDate(base));
+    var d = callDate(); d.setDate(d.getDate() + Number(b.getAttribute("data-d")));
+    setv(b.parentNode.getAttribute("data-days"), isoDate(d));
   });
 });
 document.querySelectorAll("#briefquick .qbtn").forEach(function(b){
   b.addEventListener("click", function(){
     var t = $("f_brief"), add = b.textContent;
     setv("f_brief", t.value.trim() ? t.value.trim() + "; " + add : add + " - ");
-    if (add === NOT_REACHABLE && !$("f_followup").value) {
-      var d = $("f_date").value ? new Date($("f_date").value + "T00:00:00") : new Date();
-      d.setDate(d.getDate() + 1);
-      setv("f_followup", isoDate(d));
-    }
-    applyVisibility();
     t.focus();
   });
 });
@@ -429,14 +501,21 @@ document.querySelectorAll("#briefquick .qbtn").forEach(function(b){
     var v = $("f_" + k).value; $("h_" + k).innerHTML = Number(v) ? "<b>" + inr(v) + "</b> · " + words(v) : "";
   });
 });
-$("f_followup").addEventListener("input", function(){
-  var v = $("f_followup").value; if (!v) { $("h_followup").textContent = ""; return; }
-  var d = new Date(v + "T00:00:00");
-  $("h_followup").innerHTML = "<b>" + d.toLocaleDateString("en-IN", {weekday:"long", day:"numeric", month:"long", year:"numeric"}) + "</b>";
+["followup","expdate","ncfollow"].forEach(function(k){
+  $("f_" + k).addEventListener("input", function(){
+    var v = $("f_" + k).value; if (!v) { $("h_" + k).textContent = ""; return; }
+    var d = new Date(v + "T00:00:00");
+    $("h_" + k).innerHTML = "<b>" + d.toLocaleDateString("en-IN", {weekday:"long", day:"numeric", month:"long", year:"numeric"}) + "</b>";
+  });
 });
 document.querySelectorAll('input[name="ctype"]').forEach(function(r){
   r.addEventListener("change", function(){
     if (r.value === "New Client" && !$("f_curinv").value) setv("f_curinv", "0");
+  });
+});
+document.querySelectorAll('input[name="connected"]').forEach(function(r){
+  r.addEventListener("change", function(){
+    if (r.value === "No" && !$("f_ncfollow").value) { var d = callDate(); d.setDate(d.getDate() + 1); setv("f_ncfollow", isoDate(d)); }
   });
 });
 $("f_mobile").addEventListener("input", function(){ this.value = this.value.replace(/[^\d+ ]/g, ""); maybeLookup(); });
@@ -445,7 +524,7 @@ $("f_brief").addEventListener("input", briefCount);
 ["input", "change"].forEach(function(evt){
   $("rmform").addEventListener(evt, function(e){
     var f = e.target.closest(".fld"); if (f) f.classList.remove("bad");
-    if (e.target.name === "ctype" || e.target.name === "refasked" || ["f_status","f_source","f_action","f_brief"].indexOf(e.target.id) !== -1) applyVisibility();
+    applyVisibility();
   });
 });
 
@@ -495,7 +574,8 @@ var busy = false;
 $("rmform").addEventListener("submit", function(ev){
   ev.preventDefault();
   if (busy) return;
-  var status = $("f_status").value, svc = status === SERVICE;
+  var status = $("f_status").value, svc = status === SERVICE, nc = notConnected();
+  var rel = radioVal("invrel"), refres = radioVal("refresult"), now = new Date();
   var v = {
     date:      dmy($("f_date").value),
     rm:        $("f_rm").value,
@@ -506,8 +586,8 @@ $("rmform").addEventListener("submit", function(ev){
     refby:     $("f_refby").value.trim(),
     curinv:    $("f_curinv").value === "" ? "" : String(Math.round(Number($("f_curinv").value))),
     planinv:   $("f_planinv").value === "" ? "" : String(Math.round(Number($("f_planinv").value))),
-    timeline:  $("f_timeline").value,
-    calltime:  timeEdited && $("f_calltime").value ? $("f_calltime").value : nowTime(),
+    timeline:  timelineFor($("f_expdate").value),
+    calltime:  callTime(),
     duration:  $("f_duration").value,
     itype:     $("f_itype").value,
     brief:     $("f_brief").value.trim().replace(/\s*-\s*$/, ""),
@@ -517,28 +597,58 @@ $("rmform").addEventListener("submit", function(ev){
     action:    $("f_action").value,
     status:    status,
     remarks:   "",                       // merged into Discussion / Notes (column kept for reports)
-    refasked:  radioVal("refasked"),
+    refasked:  refres ? (refres === "Not asked" ? "No" : "Yes") : "",   // old Yes/No column, kept for reports
     refname:   $("f_refname").value.trim(),
     refmobile: digits10($("f_refmobile").value),
     invamt:    $("f_invamt").value === "" ? "" : String(Math.round(Number($("f_invamt").value))),
     invdate:   dmy($("f_invdate").value),
     products:  checkedVals("products").join(", "),
-    meeting:   dmyTime($("f_meeting").value)
+    meeting:   dmyTime($("f_meeting").value),
+    // --- v3 columns ---
+    connected: isCall() ? radioVal("connected") : "Yes",
+    purpose:   radioVal("purpose"),
+    expdate:   dmy($("f_expdate").value),
+    invname:   !rel ? "" : rel === "Self" ? "Self" : rel + " - " + $("f_invperson").value.trim(),
+    refresult: refres,
+    loggedat:  dmy(isoDate(now)) + " " + hhmm(now)
   };
   // Anything the RM cannot see is sent as "-" (reports rely on it).
-  Object.keys(v).forEach(function(k){ if (k !== "calltime" && document.querySelector('.fld[data-k="' + k + '"]') && !isShown(k)) v[k] = ""; });
+  Object.keys(v).forEach(function(k){ if (k !== "connected" && k !== "calltime" && document.querySelector('.fld[data-k="' + k + '"]') && !isShown(k)) v[k] = ""; });
+  if (!isShown("expdate")) v.timeline = "";
+  if (!isShown("refresult")) v.refasked = "";
+  var ncReason = radioVal("ncreason");
+  if (nc) {
+    v.status = NOT_CONNECTED;
+    v.action = ncReason === "Wrong number" ? "No Action" : "Call Back";
+    v.followup = ncReason === "Wrong number" ? "" : dmy($("f_ncfollow").value);
+    v.brief = "Not connected - " + ncReason;
+  }
 
   var bad = [], why = [];
-  ["date","rm","mobile","client","itype","status","brief"].forEach(function(k){ if (!v[k]) bad.push(k); });
+  ["date","rm","mobile","client","itype"].forEach(function(k){ if (!v[k]) bad.push(k); });
   if (v.mobile && v.mobile.length !== 10) { bad.push("mobile"); why.push("Mobile number must be 10 digits."); }
-  if (!svc && v.brief && v.brief.length < BRIEF_MIN) { bad.push("brief"); why.push("Discussion / Notes needs at least " + BRIEF_MIN + " characters."); }
-  if (NEEDS_PLAN.indexOf(status) !== -1) { if (!v.planinv) bad.push("planinv"); if (!v.timeline) bad.push("timeline"); }
-  if ((notReachable() || (status && NO_FOLLOWUP.indexOf(status) === -1)) && !v.followup) bad.push("followup");
-  if (status === "Invested") { if (!v.invamt) bad.push("invamt"); if (!v.invdate) bad.push("invdate"); }
-  if (isShown("meeting") && !v.meeting) bad.push("meeting");
-  if (v.refasked === "Yes") {
-    if (!v.refname) bad.push("refname");
-    if (v.refmobile.length !== 10) { bad.push("refmobile"); if (v.refmobile) why.push("Referral mobile must be 10 digits."); }
+  if (!v.calltime) bad.push("calltime");
+  if (isCall() && !v.connected) bad.push("connected");
+  if (nc) {
+    if (!ncReason) bad.push("ncreason");
+    if (ncReason !== "Wrong number" && !v.followup) bad.push("ncfollow");
+  } else if (v.connected) {
+    ["purpose","status","brief"].forEach(function(k){ if (!v[k]) bad.push(k); });
+    if (!svc && v.brief && v.brief.length < BRIEF_MIN) { bad.push("brief"); why.push("Discussion / Notes needs at least " + BRIEF_MIN + " characters."); }
+    if (NEEDS_PLAN.indexOf(status) !== -1) {
+      if (!v.planinv) bad.push("planinv");
+      if (!v.expdate) bad.push("expdate");
+      else if (daysFromCall($("f_expdate").value) < 0) { bad.push("expdate"); why.push("Expected investment date cannot be before the call date."); }
+      if (!v.action) bad.push("action");
+    }
+    if (status && followupRequired() && !v.followup) bad.push("followup");
+    if (status === "Invested") { if (!v.invamt) bad.push("invamt"); if (!v.invdate) bad.push("invdate"); }
+    if (NEEDS_NAME.indexOf(status) !== -1 && (!rel || (rel !== "Self" && !$("f_invperson").value.trim()))) bad.push("invname");
+    if (isShown("meeting") && !v.meeting) bad.push("meeting");
+    if (refres === "Gave referral") {
+      if (!v.refname) bad.push("refname");
+      if (v.refmobile.length !== 10) { bad.push("refmobile"); if (v.refmobile) why.push("Referral mobile must be 10 digits."); }
+    }
   }
 
   document.querySelectorAll(".fld").forEach(function(f){ f.classList.toggle("bad", bad.indexOf(f.getAttribute("data-k")) !== -1); });
@@ -568,14 +678,24 @@ $("rmform").addEventListener("submit", function(ev){
     if (finished) return; finished = true; busy = false;
     btn.disabled = false; btn.textContent = "✓ SAVE ENTRY / એન્ટ્રી સેવ કરો";
     store(countKey(), String((Number(store(countKey())) || 0) + 1)); showCount();
-    var rows = [["Client", v.client + " · " + v.mobile], ["Type", [v.ctype, v.source].filter(Boolean).join(" · ") || "—"],
-      ["Status", [v.status, v.action].filter(Boolean).join(" → ") || "—"],
-      ["Notes", v.brief], ["Products", v.products || "—"]];
-    if (Number(v.planinv)) rows.push(["Planned", inr(v.planinv) + " (" + words(v.planinv) + ")"]);
-    if (Number(v.invamt)) rows.push(["Invested", inr(v.invamt) + " on " + v.invdate]);
-    if (v.meeting) rows.push(["Meeting", v.meeting]);
-    if (v.followup) rows.push(["Follow-up", v.followup]);
-    if (v.refasked === "Yes") rows.push(["Referral", v.refname + " · " + v.refmobile]);
+    var rows = [["Client", v.client + " · " + v.mobile]];
+    if (nc) {
+      rows.push(["Call", "Not connected · " + ncReason]);
+      if (v.followup) rows.push(["Try again", v.followup]);
+    } else {
+      rows.push(["Type", [v.ctype, v.source].filter(Boolean).join(" · ") || "—"]);
+      rows.push(["Purpose", v.purpose]);
+      rows.push(["Outcome", [v.status === SERVICE ? "Service done" : v.status, v.action].filter(Boolean).join(" → ")]);
+      rows.push(["Notes", v.brief]);
+      if (v.products) rows.push(["Products", v.products]);
+      if (Number(v.planinv)) rows.push(["Planned", inr(v.planinv) + " (" + words(v.planinv) + ")" + (v.expdate ? " by " + v.expdate : "")]);
+      if (Number(v.invamt)) rows.push(["Invested", inr(v.invamt) + " on " + v.invdate]);
+      if (v.invname) rows.push(["In name of", v.invname]);
+      if (v.meeting) rows.push(["Meeting", v.meeting]);
+      if (v.followup) rows.push(["Follow-up", v.followup]);
+      if (v.refresult) rows.push(["Referral", v.refresult + (v.refname ? " · " + v.refname + " · " + v.refmobile : "")]);
+    }
+    rows.push(["Call time", v.calltime]);
     $("summary").innerHTML = rows.map(function(r){
       return '<div class="srow"><div class="k">' + r[0] + '</div><div class="v">' + esc(r[1]) + '</div></div>';
     }).join("");
